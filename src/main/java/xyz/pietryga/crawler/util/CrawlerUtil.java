@@ -27,7 +27,7 @@ public class CrawlerUtil {
 
     public static List<String> parseBodyToFiles(String body) {
 	List<String> files = new LinkedList<>();
-	String regexLinks = "<a[^<|>]+href=[\\\"|']+\\/*([^<|>|\\\"|']+)[^<|>]+>";
+	String regexLinks = "<a[^<|>]+href=[\"|']+([^<|>|\\\"|']+)[^<|>]+>";
 	String regexFiles = "^(http|www).*$";
 	Pattern pattern = Pattern.compile(regexLinks);
 	Matcher matcher = pattern.matcher(body);
@@ -56,6 +56,16 @@ public class CrawlerUtil {
 	    logger.log(Level.SEVERE, null, ex);
 	}
 	return sb.toString();
+    }
+
+    public static String getAddress(String file, String core) {
+	if ("/".equals(file)) {
+	    return core;
+	} else if (file.startsWith("/")) {
+	    return core + file;
+	} else {
+	    return core + "/" + file;
+	}
     }
 
 }

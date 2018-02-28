@@ -43,19 +43,19 @@ public class URLCrawler {
 
 	// CLASSICAL VERSION
 	String link = args[0];
-	String core = CrawlerUtil.getProtocolAndHostFromLink(link) + "/";
+	String core = CrawlerUtil.getProtocolAndHostFromLink(link);
+	link = (link.endsWith("/")) ? link.substring(0, link.length() - 1) : link;
 
 	Queue<String> files = (Queue<String>) getFilesFromLink(link);
-	Set<String> visitedFiles = new LinkedHashSet<>();
+	Set<String> visitedLinks = new LinkedHashSet<>();
+	visitedLinks.add(link);
 
 	while (files.peek() != null) {
 	    String file = files.poll();
-	    if (visitedFiles.add(file)) {
-		Queue<String> newFiles = (Queue<String>) getFilesFromLink(core + file);
-		Page page = new Page(core + file);
+	    if (visitedLinks.add(CrawlerUtil.getAddress(file, core))) {
+		Queue<String> newFiles = (Queue<String>) getFilesFromLink(CrawlerUtil.getAddress(file, core));
 		if (newFiles != null) {
 		    files.addAll(newFiles);
-		    page.addLinks(files, core);
 		}
 	    }
 	}
@@ -66,6 +66,7 @@ public class URLCrawler {
 	homePage.addLinks(files, core);
 	Queue<Page> pages = new LinkedList<>(homePage.getLinks());
 	Set<Page> visitedPages = new HashSet<>();
+	visitedPages.add(homePage);
 
 	while (pages.peek() != null) {
 	    Page page = pages.poll();
@@ -79,8 +80,8 @@ public class URLCrawler {
 	}
 
 	logger.info(core);
-	logger.info(visitedFiles.toString());
-	logger.info("" + visitedFiles.size());
+	logger.info(visitedLinks.toString());
+	logger.info("" + visitedLinks.size());
 	logger.info(homePage.toString());
     }
 

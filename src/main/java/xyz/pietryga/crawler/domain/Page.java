@@ -3,6 +3,7 @@ package xyz.pietryga.crawler.domain;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import xyz.pietryga.crawler.util.CrawlerUtil;
 
 public class Page implements Comparable<Page> {
 
@@ -25,9 +26,9 @@ public class Page implements Comparable<Page> {
 	return links.addAll(links);
     }
 
-    public boolean addLinks(Queue<String> files, String protocolAndHost) {
+    public boolean addLinks(Queue<String> files, String core) {
 	for (String file : files) {
-	    links.add(new Page(protocolAndHost + file));
+	    links.add(new Page(CrawlerUtil.getAddress(file, core)));
 	}
 	return true;
     }
