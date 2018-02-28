@@ -1,19 +1,24 @@
 package xyz.pietryga.crawler.util;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import xyz.pietryga.crawler.domain.Page;
 
 public class CrawlerUtil {
 
-    public static final Logger logger = Logger.getLogger(CrawlerUtil.class.getName());
+    private static final Logger logger = Logger.getLogger(CrawlerUtil.class.getName());
 
     private CrawlerUtil() {
     }
@@ -65,6 +70,26 @@ public class CrawlerUtil {
 	    return core + file;
 	} else {
 	    return core + "/" + file;
+	}
+    }
+
+    public static void writeToFile(Page homePage) {
+	File file = new File("links.json");
+	try (FileWriter fw = new FileWriter(file)) {
+	    fw.write(homePage.toString());
+	} catch (IOException ex) {
+	    logger.log(Level.SEVERE, null, ex);
+	}
+    }
+
+    public static void writeToFile(Set<String> links) {
+	File file = new File("links.txt");
+	try (PrintWriter pw = new PrintWriter(file)) {
+	    for (String link : links) {
+		pw.println(link);
+	    }
+	} catch (IOException ex) {
+	    logger.log(Level.SEVERE, null, ex);
 	}
     }
 
