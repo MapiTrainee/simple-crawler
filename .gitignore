@@ -25,5 +25,5 @@ nbdist/
 nbactions.*
 
 ### FILES ###
-.txt
-.json
+*.txt
+*.json
