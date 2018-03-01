@@ -79,11 +79,10 @@ public class URLCrawler {
 	    }
 	}
 
-	System.out.println(core);
-	System.out.println((visitedLinks.size()-1) + " links has been found!");
+	System.out.println("Visited links: " + (visitedLinks.size()));
 	CrawlerUtil.writeToFile(visitedLinks);
 	CrawlerUtil.writeToFile(homePage);
-	System.out.println("Links has been written to links.txt and links.json");
+	System.out.println("Links have been written to links.txt and links.json");
     }
 
 }

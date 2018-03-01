@@ -3,9 +3,8 @@
 
 ```
 java -jar SimpleCrawler-1.0-SNAPSHOT.jar http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/
-http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com
-7 links has been found!
-Links has been written to links.txt and links.json
+Visited links: 8
+Links have been written to links.txt and links.json
 ```
 
 * links.txt
