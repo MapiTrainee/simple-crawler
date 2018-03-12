@@ -2,10 +2,11 @@ package xyz.pietryga.crawler.domain;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Queue;
 import xyz.pietryga.crawler.util.CrawlerUtil;
 
-public class Page implements Comparable<Page> {
+public class Page {
 
     private final String address;
     private final List<Page> links = new LinkedList<>();
@@ -42,23 +43,28 @@ public class Page implements Comparable<Page> {
     }
 
     @Override
-    public int compareTo(Page page
-    ) {
-	if (page != null) {
-	    return (address.equals(page.getAddress())) ? 0 : 1;
-	}
-	throw new NullPointerException("Page can not be null!");
-    }
-
-    @Override
-    public boolean equals(Object o
-    ) {
-	return (o instanceof Page) && address.equals(((Page) o).getAddress());
-    }
-
-    @Override
     public int hashCode() {
-	return address.hashCode();
+	int hash = 5;
+	hash = 61 * hash + Objects.hashCode(this.address);
+	return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj) {
+	    return true;
+	}
+	if (obj == null) {
+	    return false;
+	}
+	if (getClass() != obj.getClass()) {
+	    return false;
+	}
+	final Page other = (Page) obj;
+	if (!Objects.equals(this.address, other.address)) {
+	    return false;
+	}
+	return true;
     }
 
 }
