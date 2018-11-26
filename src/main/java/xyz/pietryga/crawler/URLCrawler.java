@@ -1,8 +1,6 @@
 package xyz.pietryga.crawler;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashSet;
@@ -27,15 +25,14 @@ public class URLCrawler {
 	    String body = CrawlerUtil.readFromInputStream(connection.getInputStream());
 	    List<String> files = CrawlerUtil.parseBodyToFiles(body);
 	    return files;
-	} catch (MalformedURLException ex) {
-	    logger.log(Level.SEVERE, null, ex);
 	} catch (IOException ex) {
 	    logger.log(Level.SEVERE, null, ex);
 	}
 	return null;
     }
 
-    public static void main(String[] args) throws URISyntaxException {
+    public static void main(String[] args) {
+	System.setProperty("http.agent", "Chrome");
 	if (args.length < 1 || !CrawlerUtil.isStringURLCorrect(args[0])) {
 	    System.err.println("Usage: java URLCrawler http://yourwebsite.com");
 	    System.exit(1);
