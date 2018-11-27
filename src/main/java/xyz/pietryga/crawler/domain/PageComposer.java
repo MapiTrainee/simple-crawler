@@ -3,8 +3,6 @@ package xyz.pietryga.crawler.domain;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Queue;
-import xyz.pietryga.crawler.util.CrawlerUtil;
 
 public class PageComposer implements Page {
 
@@ -31,17 +29,6 @@ public class PageComposer implements Page {
     @Override
     public void addSubpage(Page page) {
 	this.subpages.add(page);
-    }
-
-    public boolean addLinks(List<PageComposer> links) {
-	return links.addAll(links);
-    }
-
-    public boolean addLinks(Queue<String> files, String core) {
-	for (String file : files) {
-	    subpages.add(new PageComposer(CrawlerUtil.getAddress(file, core)));
-	}
-	return true;
     }
 
     @Override

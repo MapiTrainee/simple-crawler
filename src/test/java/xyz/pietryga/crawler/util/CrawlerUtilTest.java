@@ -9,7 +9,6 @@ import org.hamcrest.core.Is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
-
 public class CrawlerUtilTest {
 
     @Test
@@ -39,13 +38,4 @@ public class CrawlerUtilTest {
 	List<String> actualFiles = CrawlerUtil.getLocalAddressesFromXmlDocument(sampleBody);
 	assertThat(actualFiles, Is.is(expectedFiles));
     }
-
-    @Test
-    public void testGetProtocolAndHostFromLink_sampleLink_expectedProtocolAndHost() {
-	String sampleLink = "http://www.google.pl/search?q=hello";
-	String expectedProtocolAndHost = "http://www.google.pl";
-	String actualProtocolAndHost = CrawlerUtil.getProtocolAndHostFromLink(sampleLink);
-	assertThat(actualProtocolAndHost, Is.is(expectedProtocolAndHost));
-    }
-
 }
