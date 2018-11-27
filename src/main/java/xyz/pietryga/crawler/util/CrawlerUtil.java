@@ -73,24 +73,4 @@ public class CrawlerUtil {
 	}
     }
 
-    public static void writeToFile(Page homePage) {
-	File file = new File("links.json");
-	try (FileWriter fw = new FileWriter(file)) {
-	    fw.write(homePage.toString());
-	} catch (IOException ex) {
-	    logger.log(Level.SEVERE, null, ex);
-	}
-    }
-
-    public static void writeToFile(Set<String> links) {
-	File file = new File("links.txt");
-	try (PrintWriter pw = new PrintWriter(file)) {
-	    for (String link : links) {
-		pw.println(link);
-	    }
-	} catch (IOException ex) {
-	    logger.log(Level.SEVERE, null, ex);
-	}
-    }
-
 }
