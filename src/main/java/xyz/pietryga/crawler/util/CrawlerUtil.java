@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import xyz.pietryga.crawler.domain.Page;
 
 public class CrawlerUtil {
 
@@ -21,6 +22,10 @@ public class CrawlerUtil {
 
     public static void writeURLsToFile(Iterable<URL> urls, String filename) {
 	IOUtil.writeToFile(urls, filename);
+    }
+
+    public static void writePageToFile(Page page, String filename) {
+	IOUtil.writeToFile(page, filename);
     }
 
     public static List<URL> getURLsFromCurrentURL(URL currentURL) {
@@ -65,6 +70,11 @@ public class CrawlerUtil {
 	    }
 	}
 	return files;
+    }
+
+    public static void printUsageAndStop() {
+	System.err.println("Usage: java URLCrawler http://yourwebsite.com");
+	System.exit(1);
     }
 
     public static List<String> getFilesFromLink(String link) {

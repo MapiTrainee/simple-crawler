@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import xyz.pietryga.crawler.domain.Page;
@@ -15,17 +14,22 @@ public class Main {
 
     public static void main(String[] args) {
 	if (args.length < 1) {
-	    URLCrawler.printUsageAndStop();
+	    CrawlerUtil.printUsageAndStop();
 	}
 	String startAddress = args[0];
+	
 	URLCrawler crawler = new URLCrawler(startAddress);
 	Iterable<URL> urls = crawler.findAndVisitLocalURLs();
 	CrawlerUtil.writeURLsToFile(urls, "links.txt");
 	for (URL url : urls) {
 	    System.out.println(url);
 	}
-	System.exit(0);
 	
+	PageCrawler pageCrawler = new PageCrawler(startAddress);
+	Page rootPage = pageCrawler.getPageWithVisitedLocalPages();
+	CrawlerUtil.writePageToFile(rootPage, "links.json");
+	
+
 	// CLASSICAL VERSION
 	String link = args[0];
 	String core = CrawlerUtil.getProtocolAndHostFromLink(link);

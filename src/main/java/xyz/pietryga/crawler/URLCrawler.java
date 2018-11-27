@@ -22,14 +22,9 @@ public class URLCrawler {
 	    this.rootURL = new URL(fullAddress);
 	} catch (MalformedURLException ex) {
 	    logger.log(Level.SEVERE, null, ex);
-	    printUsageAndStop();
+	    CrawlerUtil.printUsageAndStop();
 	}
 	System.setProperty("http.agent", "Chrome");
-    }
-
-    public static void printUsageAndStop() {
-	System.err.println("Usage: java URLCrawler http://yourwebsite.com");
-	System.exit(1);
     }
 
     public Iterable<URL> findAndVisitLocalURLs() {
