@@ -27,7 +27,7 @@ public class CrawlerUtil {
     public static void writePageToFile(Page page, String filename) {
 	IOUtil.writeToFile(page, filename);
     }
-
+    
     public static List<URL> getURLsFromCurrentURL(URL currentURL) {
 	List<URL> urls = new ArrayList<>();
 	try {
