@@ -16,7 +16,7 @@ public class CrawlerUtilTest {
     public void testReadFromInputStream_sampleInputStream_expectedString() {
 	String expectedString = "One Two Three";
 	InputStream sampleInputStream = new ByteArrayInputStream(expectedString.getBytes(StandardCharsets.UTF_8));
-	String actualString = CrawlerUtil.readFromInputStream(sampleInputStream);
+	String actualString = IOUtil.readFromInputStream(sampleInputStream);
 	assertThat(actualString, Is.is(expectedString));
     }
 
@@ -36,7 +36,7 @@ public class CrawlerUtilTest {
 		+ "</body>\n"
 		+ "</html>";
 
-	List<String> actualFiles = CrawlerUtil.parseBodyToFiles(sampleBody);
+	List<String> actualFiles = CrawlerUtil.getLocalAddressesFromXmlDocument(sampleBody);
 	assertThat(actualFiles, Is.is(expectedFiles));
     }
 
