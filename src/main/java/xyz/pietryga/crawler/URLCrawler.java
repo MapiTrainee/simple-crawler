@@ -2,6 +2,7 @@ package xyz.pietryga.crawler;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,6 +24,10 @@ public class URLCrawler {
     public static void printUsageAndStop() {
 	System.err.println("Usage: java URLCrawler http://yourwebsite.com");
 	System.exit(1);
+    }
+
+    public List<URL> findURLs() {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

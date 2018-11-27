@@ -1,14 +1,12 @@
 package xyz.pietryga.crawler;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import xyz.pietryga.crawler.domain.Page;
 import xyz.pietryga.crawler.util.CrawlerUtil;
 import xyz.pietryga.crawler.util.IOUtil;
@@ -20,7 +18,9 @@ public class Main {
 	    URLCrawler.printUsageAndStop();
 	}
 	String address = args[0];
-	URLCrawler urlc = new URLCrawler(address);
+	URLCrawler crawler = new URLCrawler(address);
+	List<URL> urls = crawler.findURLs();
+	CrawlerUtil.writeURLsToFile(urls, "links.txt");
 	
 	// CLASSICAL VERSION
 	String link = args[0];
@@ -56,7 +56,7 @@ public class Main {
 	    }
 	}
 	System.out.println("Visited links: " + (visitedLinks.size()));
-	IOUtil.writeToFile(visitedLinks);
+	IOUtil.writeToFile(visitedLinks, "links.txt");
 	IOUtil.writeToFile(homePage);
 	System.out.println("Links have been written to links.txt and links.json");
     }
