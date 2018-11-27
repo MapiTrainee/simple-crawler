@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import xyz.pietryga.crawler.domain.Page;
@@ -38,11 +37,11 @@ public class IOUtil {
 	}
     }
 
-    public static void writeToFile(Set<String> links) {
-	File file = new File("links.txt");
+    public static <T> void writeToFile(Iterable<T> ts, String filename) {
+	File file = new File(filename);
 	try (final PrintWriter pw = new PrintWriter(file)) {
-	    for (String link : links) {
-		pw.println(link);
+	    for (T t : ts) {
+		pw.println(t.toString());
 	    }
 	} catch (IOException ex) {
 	    logger.log(Level.SEVERE, null, ex);

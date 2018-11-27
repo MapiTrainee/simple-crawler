@@ -1,24 +1,24 @@
 package xyz.pietryga.crawler.util;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import xyz.pietryga.crawler.domain.Page;
 
 public class CrawlerUtil {
 
     private static final Logger logger = Logger.getLogger(CrawlerUtil.class.getName());
+
+    public static void writeURLsToFile(List<URL> urls, String filename) {
+	IOUtil.writeToFile(urls, filename);
+    }
 
     private CrawlerUtil() {
     }
