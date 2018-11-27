@@ -1,26 +1,83 @@
 package xyz.pietryga.crawler.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import xyz.pietryga.crawler.domain.Page;
 
 public class CrawlerUtil {
 
     private static final Logger logger = Logger.getLogger(CrawlerUtil.class.getName());
 
     private CrawlerUtil() {
+    }
+
+    public static void writeURLsToFile(Iterable<URL> urls, String filename) {
+	IOUtil.writeToFile(urls, filename);
+    }
+
+    public static List<URL> getURLsFromCurrentURL(URL currentURL) {
+	List<URL> urls = new ArrayList<>();
+	try {
+	    URLConnection connection = currentURL.openConnection();
+	    String body = IOUtil.readFromInputStream(connection.getInputStream());
+	    List<String> localAdresses = CrawlerUtil.getLocalAddressesFromXmlDocument(body);
+	    urls = CrawlerUtil.createURLs(localAdresses, currentURL);
+	} catch (IOException ex) {
+	    logger.log(Level.SEVERE, null, ex);
+	}
+	return urls;
+    }
+
+    private static List<URL> createURLs(List<String> localAddresses, URL currentURL) {
+	List<URL> urls = new ArrayList<>();
+	for (String localAddress : localAddresses) {
+	    try {
+		urls.add(new URL(currentURL.getProtocol(), currentURL.getHost(), localAddress));
+	    } catch (MalformedURLException ex) {
+		logger.log(Level.SEVERE, null, ex);
+	    }
+	}
+	return urls;
+    }
+
+    private static boolean isLocalAddress(String address) {
+	String regexLocalLink = "^(http|www|https).*$";
+	return !address.matches(regexLocalLink);
+    }
+
+    public static List<String> getLocalAddressesFromXmlDocument(String body) {
+	List<String> files = new LinkedList<>();
+	String regexLinks = "<a[^<|>]+href=[\"|']+([^<|>|\\\"|']+)[^<|>]+>";
+	Pattern patternLinks = Pattern.compile(regexLinks);
+	Matcher matcherLinksInBody = patternLinks.matcher(body);
+	while (matcherLinksInBody.find()) {
+	    String address = matcherLinksInBody.group(1);
+	    if (isLocalAddress(address)) {
+		files.add(address);
+	    }
+	}
+	return files;
+    }
+
+    public static List<String> getFilesFromLink(String link) {
+	try {
+	    URL destURL = new URL(link);
+	    URLConnection connection = destURL.openConnection();
+	    String body = IOUtil.readFromInputStream(connection.getInputStream());
+	    List<String> files = CrawlerUtil.getLocalAddressesFromXmlDocument(body);
+	    return files;
+	} catch (IOException ex) {
+	    logger.log(Level.SEVERE, null, ex);
+	}
+	return null;
     }
 
     public static String getProtocolAndHostFromLink(String link) {
@@ -30,37 +87,9 @@ public class CrawlerUtil {
 	return matcher.find() ? matcher.group(1) : null;
     }
 
-    public static List<String> parseBodyToFiles(String body) {
-	List<String> files = new LinkedList<>();
-	String regexLinks = "<a[^<|>]+href=[\"|']+([^<|>|\\\"|']+)[^<|>]+>";
-	String regexFiles = "^(http|www).*$";
-	Pattern pattern = Pattern.compile(regexLinks);
-	Matcher matcher = pattern.matcher(body);
-	while (matcher.find()) {
-	    String link = matcher.group(1);
-	    if (!link.matches(regexFiles)) {
-		files.add(link);
-	    }
-	}
-	return files;
-    }
-
     public static boolean isStringURLCorrect(String path) {
 	String regex = "^http:\\/\\/(www\\.)?[^\\s]+\\.[^\\s]+$";
 	return path.matches(regex);
-    }
-
-    public static String readFromInputStream(InputStream inputStream) {
-	StringBuilder sb = new StringBuilder();
-	try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
-	    String line;
-	    while ((line = br.readLine()) != null) {
-		sb.append(line);
-	    }
-	} catch (IOException ex) {
-	    logger.log(Level.SEVERE, null, ex);
-	}
-	return sb.toString();
     }
 
     public static String getAddress(String file, String core) {
@@ -70,26 +99,6 @@ public class CrawlerUtil {
 	    return core + file;
 	} else {
 	    return core + "/" + file;
-	}
-    }
-
-    public static void writeToFile(Page homePage) {
-	File file = new File("links.json");
-	try (FileWriter fw = new FileWriter(file)) {
-	    fw.write(homePage.toString());
-	} catch (IOException ex) {
-	    logger.log(Level.SEVERE, null, ex);
-	}
-    }
-
-    public static void writeToFile(Set<String> links) {
-	File file = new File("links.txt");
-	try (PrintWriter pw = new PrintWriter(file)) {
-	    for (String link : links) {
-		pw.println(link);
-	    }
-	} catch (IOException ex) {
-	    logger.log(Level.SEVERE, null, ex);
 	}
     }
 
