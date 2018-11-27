@@ -1,0 +1,116 @@
+{
+  "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/",
+  "subpages": [
+    {
+      "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/random",
+      "subpages": [
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/random-stats",
+          "subpages": [
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/"
+            },
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/random"
+            },
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/static"
+            },
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/math"
+            }
+          ]
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/add"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/random"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/static"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/math"
+        }
+      ]
+    },
+    {
+      "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/static",
+      "subpages": [
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/static-stats",
+          "subpages": [
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/"
+            },
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/random"
+            },
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/static"
+            },
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/math"
+            }
+          ]
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/add"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/random"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/static"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/math"
+        }
+      ]
+    },
+    {
+      "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/math",
+      "subpages": [
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/math-stats",
+          "subpages": [
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/"
+            },
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/random"
+            },
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/static"
+            },
+            {
+              "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/math"
+            }
+          ]
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/add"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/random"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/static"
+        },
+        {
+          "page": "http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/math"
+        }
+      ]
+    }
+  ]
+}

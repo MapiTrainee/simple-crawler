@@ -20,4 +20,4 @@ http://lotto-app-mapidev.a3c1.starter-us-west-1.openshiftapps.com/math-stats
 ```
 
 * links.json
-http://mapidev.eu/github/links.json
+https://github.com/MapiTrainee/simple-crawler/blob/master/links.json
