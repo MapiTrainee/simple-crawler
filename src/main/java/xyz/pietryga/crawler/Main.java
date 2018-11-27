@@ -17,22 +17,26 @@ public class Main {
 	if (args.length < 1) {
 	    URLCrawler.printUsageAndStop();
 	}
-	String address = args[0];
-	URLCrawler crawler = new URLCrawler(address);
-	List<URL> urls = crawler.findURLs();
+	String startAddress = args[0];
+	URLCrawler crawler = new URLCrawler(startAddress);
+	Iterable<URL> urls = crawler.findAndVisitLocalURLs();
 	CrawlerUtil.writeURLsToFile(urls, "links.txt");
+	for (URL url : urls) {
+	    System.out.println(url);
+	}
+	System.exit(0);
 	
 	// CLASSICAL VERSION
 	String link = args[0];
 	String core = CrawlerUtil.getProtocolAndHostFromLink(link);
 	link = (link.endsWith("/")) ? link.substring(0, link.length() - 1) : link;
-	Queue<String> files = (Queue<String>) IOUtil.getFilesFromLink(link);
+	Queue<String> files = (Queue<String>) CrawlerUtil.getFilesFromLink(link);
 	Set<String> visitedLinks = new LinkedHashSet<>();
 	visitedLinks.add(link);
 	while (files.peek() != null) {
 	    String file = files.poll();
 	    if (visitedLinks.add(CrawlerUtil.getAddress(file, core))) {
-		Queue<String> newFiles = (Queue<String>) IOUtil.getFilesFromLink(CrawlerUtil.getAddress(file, core));
+		Queue<String> newFiles = (Queue<String>) CrawlerUtil.getFilesFromLink(CrawlerUtil.getAddress(file, core));
 		if (newFiles != null) {
 		    files.addAll(newFiles);
 		}
@@ -40,7 +44,7 @@ public class Main {
 	}
 	// OBJECT ORIENTED VERSION
 	Page homePage = new Page(link);
-	files = (Queue<String>) IOUtil.getFilesFromLink(link);
+	files = (Queue<String>) CrawlerUtil.getFilesFromLink(link);
 	homePage.addLinks(files, core);
 	Queue<Page> pages = new LinkedList<>(homePage.getLinks());
 	Set<Page> visitedPages = new HashSet<>();
@@ -48,7 +52,7 @@ public class Main {
 	while (pages.peek() != null) {
 	    Page page = pages.poll();
 	    if (visitedPages.add(page)) {
-		Queue<String> newFiles = (Queue<String>) IOUtil.getFilesFromLink(page.getAddress());
+		Queue<String> newFiles = (Queue<String>) CrawlerUtil.getFilesFromLink(page.getAddress());
 		if (newFiles != null) {
 		    page.addLinks(newFiles, core);
 		    pages.addAll(page.getLinks());
@@ -57,7 +61,7 @@ public class Main {
 	}
 	System.out.println("Visited links: " + (visitedLinks.size()));
 	IOUtil.writeToFile(visitedLinks, "links.txt");
-	IOUtil.writeToFile(homePage);
+	IOUtil.writeToFile(homePage, "link.js");
 	System.out.println("Links have been written to links.txt and links.json");
     }
 }
