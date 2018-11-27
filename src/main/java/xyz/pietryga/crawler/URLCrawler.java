@@ -2,6 +2,7 @@ package xyz.pietryga.crawler;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,24 +16,19 @@ public class URLCrawler {
 
     private URL rootURL;
 
-    private final static Logger logger = Logger.getLogger(URLCrawler.class.getName());
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public URLCrawler(String fullAddress) {
 	try {
 	    this.rootURL = new URL(fullAddress);
 	} catch (MalformedURLException ex) {
 	    logger.log(Level.SEVERE, null, ex);
-	    printUsageAndStop();
+	    CrawlerUtil.printUsageAndStop();
 	}
 	System.setProperty("http.agent", "Chrome");
     }
 
-    public static void printUsageAndStop() {
-	System.err.println("Usage: java URLCrawler http://yourwebsite.com");
-	System.exit(1);
-    }
-
-    public Iterable<URL> findAndVisitLocalURLs() {
+    public Collection<URL> findAndVisitLocalURLs() {
 	Queue<URL> urlsToCheck = new LinkedList<>(CrawlerUtil.getURLsFromCurrentURL(rootURL));
 	Set<URL> visitedURLs = new LinkedHashSet<>();
 	visitedURLs.add(rootURL);
@@ -47,6 +43,10 @@ public class URLCrawler {
 	    }
 	}
 	return visitedURLs;
+    }
+
+    public URL getRootURL() {
+	return rootURL;
     }
 
 }

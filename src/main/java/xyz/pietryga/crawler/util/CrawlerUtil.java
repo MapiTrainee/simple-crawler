@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import xyz.pietryga.crawler.domain.Page;
 
 public class CrawlerUtil {
 
@@ -21,6 +22,10 @@ public class CrawlerUtil {
 
     public static void writeURLsToFile(Iterable<URL> urls, String filename) {
 	IOUtil.writeToFile(urls, filename);
+    }
+
+    public static void writePageToFile(Page page, String filename) {
+	IOUtil.writeToFile(page, filename);
     }
 
     public static List<URL> getURLsFromCurrentURL(URL currentURL) {
@@ -67,39 +72,8 @@ public class CrawlerUtil {
 	return files;
     }
 
-    public static List<String> getFilesFromLink(String link) {
-	try {
-	    URL destURL = new URL(link);
-	    URLConnection connection = destURL.openConnection();
-	    String body = IOUtil.readFromInputStream(connection.getInputStream());
-	    List<String> files = CrawlerUtil.getLocalAddressesFromXmlDocument(body);
-	    return files;
-	} catch (IOException ex) {
-	    logger.log(Level.SEVERE, null, ex);
-	}
-	return null;
+    public static void printUsageAndStop() {
+	System.err.println("Usage: java URLCrawler http://yourwebsite.com");
+	System.exit(1);
     }
-
-    public static String getProtocolAndHostFromLink(String link) {
-	String regex = "^(http:\\/\\/(www\\.)?[^\\s\\/]+\\.[a-z]{2,6})";
-	Pattern pattern = Pattern.compile(regex);
-	Matcher matcher = pattern.matcher(link);
-	return matcher.find() ? matcher.group(1) : null;
-    }
-
-    public static boolean isStringURLCorrect(String path) {
-	String regex = "^http:\\/\\/(www\\.)?[^\\s]+\\.[^\\s]+$";
-	return path.matches(regex);
-    }
-
-    public static String getAddress(String file, String core) {
-	if ("/".equals(file)) {
-	    return core;
-	} else if (file.startsWith("/")) {
-	    return core + file;
-	} else {
-	    return core + "/" + file;
-	}
-    }
-
 }
