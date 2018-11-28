@@ -26,4 +26,4 @@ nbactions.*
 
 ### FILES ###
 *.txt
-#*.json
+*.json

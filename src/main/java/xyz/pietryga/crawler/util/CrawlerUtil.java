@@ -43,12 +43,12 @@ public class CrawlerUtil {
 
     private static List<URL> createURLs(List<String> localAddresses, URL currentURL) {
 	List<URL> urls = new ArrayList<>();
-	for (String localAddress : localAddresses) {
-	    try {
+	try {
+	    for (String localAddress : localAddresses) {
 		urls.add(new URL(currentURL.getProtocol(), currentURL.getHost(), localAddress));
-	    } catch (MalformedURLException ex) {
-		logger.log(Level.SEVERE, null, ex);
 	    }
+	} catch (MalformedURLException ex) {
+	    logger.log(Level.SEVERE, null, ex);
 	}
 	return urls;
     }
@@ -59,17 +59,17 @@ public class CrawlerUtil {
     }
 
     public static List<String> getLocalAddressesFromXmlDocument(String body) {
-	List<String> files = new LinkedList<>();
+	List<String> addresses = new LinkedList<>();
 	String regexLinks = "<a[^<|>]+href=[\"|']+([^<|>|\\\"|']+)[^<|>]+>";
 	Pattern patternLinks = Pattern.compile(regexLinks);
 	Matcher matcherLinksInBody = patternLinks.matcher(body);
 	while (matcherLinksInBody.find()) {
 	    String address = matcherLinksInBody.group(1);
 	    if (isLocalAddress(address)) {
-		files.add(address);
+		addresses.add(address);
 	    }
 	}
-	return files;
+	return addresses;
     }
 
     public static void printUsageAndStop() {
