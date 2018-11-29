@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,6 +15,8 @@ import xyz.pietryga.crawler.domain.Page;
 public class CrawlerUtil {
 
     private static final Logger logger = Logger.getLogger(CrawlerUtil.class.getName());
+    private static final List<URL> urls = new LinkedList<>();
+    private static final List<String> localAddresses = new LinkedList<>();
 
     private CrawlerUtil() {
     }
@@ -29,20 +30,19 @@ public class CrawlerUtil {
     }
 
     public static List<URL> getURLsFromCurrentURL(URL currentURL) {
-	List<URL> urls = new ArrayList<>();
 	try {
 	    URLConnection connection = currentURL.openConnection();
 	    String body = IOUtil.readFromInputStream(connection.getInputStream());
-	    List<String> localAdresses = getLocalAddressesFromXmlDocument(body);
-	    urls = createURLs(localAdresses, currentURL);
+	    createLocalAddressesFromXmlDocument(body);
+	    createURLs(currentURL);
 	} catch (IOException ex) {
 	    logger.log(Level.SEVERE, null, ex);
 	}
 	return urls;
     }
 
-    private static List<URL> createURLs(List<String> localAddresses, URL currentURL) {
-	List<URL> urls = new ArrayList<>();
+    private static void createURLs(URL currentURL) {
+	urls.clear();
 	try {
 	    for (String localAddress : localAddresses) {
 		urls.add(new URL(currentURL.getProtocol(), currentURL.getHost(), localAddress));
@@ -50,26 +50,28 @@ public class CrawlerUtil {
 	} catch (MalformedURLException ex) {
 	    logger.log(Level.SEVERE, null, ex);
 	}
-	return urls;
     }
 
-    private static boolean isLocalAddress(String address) {
-	String regexLocalLink = "^(http|www|https).*$";
-	return !address.matches(regexLocalLink);
-    }
-
-    public static List<String> getLocalAddressesFromXmlDocument(String body) {
-	List<String> addresses = new LinkedList<>();
+    public static void createLocalAddressesFromXmlDocument(String body) {
+	localAddresses.clear();
 	String regexLinks = "<a[^<|>]+href=[\"|']+([^<|>|\\\"|']+)[^<|>]+>";
 	Pattern patternLinks = Pattern.compile(regexLinks);
 	Matcher matcherLinksInBody = patternLinks.matcher(body);
 	while (matcherLinksInBody.find()) {
 	    String address = matcherLinksInBody.group(1);
 	    if (isLocalAddress(address)) {
-		addresses.add(address);
+		localAddresses.add(address);
 	    }
 	}
-	return addresses;
+    }
+
+    public static List<String> getLocalAddresses() {
+	return localAddresses;
+    }
+
+    private static boolean isLocalAddress(String address) {
+	String regexLocalLink = "^(http|www|https).*$";
+	return !address.matches(regexLocalLink);
     }
 
     public static void printUsageAndStop() {

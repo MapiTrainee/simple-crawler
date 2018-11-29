@@ -35,7 +35,9 @@ public class CrawlerUtilTest {
 		+ "</body>\n"
 		+ "</html>";
 
-	List<String> actualFiles = CrawlerUtil.getLocalAddressesFromXmlDocument(sampleBody);
+	CrawlerUtil.createLocalAddressesFromXmlDocument(sampleBody);
+	List<String> actualFiles = CrawlerUtil.getLocalAddresses();
+
 	assertThat(actualFiles, Is.is(expectedFiles));
     }
 }
