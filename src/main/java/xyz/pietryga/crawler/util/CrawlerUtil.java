@@ -33,8 +33,8 @@ public class CrawlerUtil {
 	try {
 	    URLConnection connection = currentURL.openConnection();
 	    String body = IOUtil.readFromInputStream(connection.getInputStream());
-	    List<String> localAdresses = CrawlerUtil.getLocalAddressesFromXmlDocument(body);
-	    urls = CrawlerUtil.createURLs(localAdresses, currentURL);
+	    List<String> localAdresses = getLocalAddressesFromXmlDocument(body);
+	    urls = createURLs(localAdresses, currentURL);
 	} catch (IOException ex) {
 	    logger.log(Level.SEVERE, null, ex);
 	}

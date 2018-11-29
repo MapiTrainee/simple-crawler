@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import xyz.pietryga.crawler.domain.Page;
-import xyz.pietryga.crawler.domain.PageComposer;
+import xyz.pietryga.crawler.domain.PageComposite;
 import xyz.pietryga.crawler.util.CrawlerUtil;
 
 public class PageCrawler {
@@ -24,7 +24,7 @@ public class PageCrawler {
     }
 
     public Page getPageWithVisitedLocalSubpages() {
-	PageComposer rootPage = new PageComposer(crawler.getRootURL().toString());
+	PageComposite rootPage = new PageComposite(crawler.getRootURL().toString());
 	List<URL> urls = CrawlerUtil.getURLsFromCurrentURL(crawler.getRootURL());
 	addSubpagesToPageFromURLs(rootPage, urls);
 
@@ -38,7 +38,7 @@ public class PageCrawler {
 		List<URL> currentURLs = CrawlerUtil.getURLsFromCurrentURL(getURLFromPage(currentPage));
 		if (!currentURLs.isEmpty()) {
 		    addSubpagesToPageFromURLs(currentPage, currentURLs);
-		    pagesToCheck.addAll(((PageComposer) currentPage).getSubpages());
+		    pagesToCheck.addAll(((PageComposite) currentPage).getSubpages());
 		}
 	    }
 	}
@@ -47,7 +47,7 @@ public class PageCrawler {
 
     private void addSubpagesToPageFromURLs(Page page, List<URL> urls) {
 	for (URL url : urls) {
-	    page.addSubpage(new PageComposer(url.toString()));
+	    page.addSubpage(new PageComposite(url.toString()));
 	}
     }
 

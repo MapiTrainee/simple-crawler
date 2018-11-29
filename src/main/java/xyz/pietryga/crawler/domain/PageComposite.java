@@ -4,12 +4,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class PageComposer implements Page {
+public class PageComposite implements Page {
 
     private final String address;
     private final List<Page> subpages = new LinkedList<>();
 
-    public PageComposer(String address) {
+    public PageComposite(String address) {
 	this.address = address;
     }
 
@@ -57,7 +57,7 @@ public class PageComposer implements Page {
 	if (getClass() != obj.getClass()) {
 	    return false;
 	}
-	final PageComposer other = (PageComposer) obj;
+	final PageComposite other = (PageComposite) obj;
 	if (!Objects.equals(this.address, other.address)) {
 	    return false;
 	}
