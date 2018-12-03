@@ -1,30 +1,19 @@
 package xyz.pietryga.crawler.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
-import org.hamcrest.core.Is;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 public class CrawlerUtilTest {
 
     @Test
-    public void testReadFromInputStream_sampleInputStream_expectedString() {
-	String expectedString = "One Two Three";
-	InputStream sampleInputStream = new ByteArrayInputStream(expectedString.getBytes(StandardCharsets.UTF_8));
-	String actualString = IOUtil.readFromInputStream(sampleInputStream);
-	assertThat(actualString, Is.is(expectedString));
-    }
+    public void shouldReturnLocalAddressesFromXmlDocument() {
+	List<String> expectedLocalAddresses = new LinkedList<>();
+	expectedLocalAddresses.add("index.html");
 
-    @Test
-    public void testParseBodyToFiles_sampleBody_expectedFiles() {
-	List<String> expectedFiles = new LinkedList<>();
-	expectedFiles.add("index.html");
-
-	String sampleBody = "<!DOCTYPE html>\n"
+	String document = "<!DOCTYPE html>\n"
 		+ "<html>\n"
 		+ "<head>\n"
 		+ "	<title>Test</title>\n"
@@ -35,9 +24,10 @@ public class CrawlerUtilTest {
 		+ "</body>\n"
 		+ "</html>";
 
-	CrawlerUtil.createLocalAddressesFromXmlDocument(sampleBody);
-	List<String> actualFiles = CrawlerUtil.getLocalAddresses();
+	CrawlerUtil.createLocalAddressesFromXmlDocument(document);
+	List<String> actualLocalAddresses = CrawlerUtil.getLocalAddresses();
 
-	assertThat(actualFiles, Is.is(expectedFiles));
+	assertThat(actualLocalAddresses, is(expectedLocalAddresses));
     }
+
 }
